@@ -1,0 +1,36 @@
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.lang.*;
+import java.sql.*;
+import java.sql.PreparedStatement;
+
+class Jdbc {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localHost:3306/mca";
+        String userName = "root";
+        String password = "yourPassword";
+        try {
+            Connection con = DriverManager.getConnection(url, userName, password);
+
+            PreparedStatement pst = con.prepareStatement("insert into student(SNo,Name,City) values(?,?,?)");
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+            System.out.println("Enter the SNo");
+            String SNo = br.readLine();
+            System.out.println("Enter the Name");
+            String Name = br.readLine();
+            System.out.println("Enter the City");
+            String City = br.readLine();
+
+            pst.setString(1, SNo);
+            pst.setString(2, Name);
+            pst.setString(3, City);
+
+            pst.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
